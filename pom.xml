@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.auth</groupId>
+  <artifactId>auth-pool</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+
+	<maven.cpmpiler.encoding>UTF-8</maven.cpmpiler.encoding>
+	<maven.test.skip>true</maven.test.skip>
+
+	<junit.version>4.12</junit.version>
+	<slf4j.slf4j-api.version>1.7.25</slf4j.slf4j-api.version>
+	
+	<alibaba.fastjson>1.2.58</alibaba.fastjson>
+	
+	<spring.data.commons>2.1.8.RELEASE</spring.data.commons>
+	<spring.data.redis>2.1.8.RELEASE</spring.data.redis>
+	
+	<spring.mybatis.starter>2.0.1</spring.mybatis.starter>
+	<spring.tk.mybatis>1.1.5</spring.tk.mybatis>
+	<spring.pagehelper>1.2.12</spring.pagehelper>
+	
+	<spring.druid.starter>1.1.16</spring.druid.starter>
+  </properties>
+  
+  <dependencyManagement>
+	<dependencies>
+		<!-- Override Spring Data release train provided by Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-releasetrain</artifactId>
+			<version>Fowler-SR2</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-dependencies</artifactId>
+			<version>2.1.5.RELEASE</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>Greenwich.SR1</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring.data.redis}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>${spring.data.commons}</version>
+		</dependency>
+	</dependencies>
+  </dependencyManagement>
+  
+  <modules>
+  	<module>thirdparty-auth</module>
+  </modules>
+</project>

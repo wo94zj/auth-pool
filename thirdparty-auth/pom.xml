@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.auth</groupId>
+    <artifactId>auth-pool</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>thirdparty-auth</artifactId>
+  
+  <dependencies>
+	<!-- @EnableConfigServer -->
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-config</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<!-- 注册中心 -->
+	<dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+	</dependency>
+	<!-- <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency> -->
+	<!-- 断路器 -->
+	<!-- <dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+	</dependency> -->
+	<!-- 负载均衡 -->
+	<!-- <dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+	</dependency> -->
+	
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-jdbc</artifactId>
+	</dependency>
+	<!--MySQL JDBC驱动 -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	</dependency>
+	
+	<!-- 自动加载mybatis配置 -->
+	<dependency>
+	    <groupId>org.mybatis.spring.boot</groupId>
+	    <artifactId>mybatis-spring-boot-starter</artifactId>
+	    <version>${spring.mybatis.starter}</version>
+	</dependency>
+	<!-- MyBatis 插件依赖 -->
+	<dependency>
+	    <groupId>tk.mybatis</groupId>
+	    <artifactId>mapper-spring</artifactId>
+	    <version>${spring.tk.mybatis}</version>
+	</dependency>
+	<!-- 注册分页拦截器 -->
+	<dependency>
+	    <groupId>com.github.pagehelper</groupId>
+	    <artifactId>pagehelper-spring-boot-starter</artifactId>
+	    <version>${spring.pagehelper}</version>
+	</dependency>
+	
+	<!--阿里 Druid Spring Boot Starter依赖 -->
+	<dependency>
+	    <groupId>com.alibaba</groupId>
+	    <artifactId>druid-spring-boot-starter</artifactId>
+	    <version>${spring.druid.starter}</version>
+	</dependency>
+
+	<!-- redis依赖 -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-redis</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-redis</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-commons</artifactId>
+	</dependency>
+	
+	<!--阿里 FastJson依赖 -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>${alibaba.fastjson}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	
+       <!-- 支付宝SDK -->
+    <dependency>
+	  <groupId>com.alipay.sdk</groupId>
+	  <artifactId>alipay-sdk-java</artifactId>
+	  <version>3.7.73.ALL</version>
+	</dependency>
+  </dependencies>
+	
+  <build>
+	<finalName>thirdparty-auth</finalName>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			<configuration>
+				<mainClass>com.auth.Application</mainClass>
+			</configuration>
+			<executions>
+				<execution>
+					<goals>
+						<goal>repackage</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+  </build>
+</project>

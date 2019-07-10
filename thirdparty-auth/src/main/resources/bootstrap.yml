@@ -1,0 +1,19 @@
+#spring:
+#  cloud:
+#    zookeeper:
+#      connect-string: 127.0.0.1:2181
+#      discovery:
+#        register: true
+#        enabled: true
+#        serviceId: ${spring.application.name}
+#        instanceHost: localhost
+#        instancePort: ${server.port}
+#      config:
+#        root: config/coupon
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:1110/eureka/
+    register-with-eureka: true #属性表示是否将自己注册到Eureka Server， 默认为true

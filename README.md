@@ -8,7 +8,9 @@
 
 支持微信、QQ、支付宝绑定登录工具包。
 
+##### realname-auth
 
+[调用实名认证服务](https://github.com/wo94zj/auth-realname)
 
 #### 库
 

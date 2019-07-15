@@ -70,5 +70,6 @@
   
   <modules>
   	<module>thirdparty-auth</module>
+  	<module>realname-auth</module>
   </modules>
 </project>

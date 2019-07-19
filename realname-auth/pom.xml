@@ -8,7 +8,7 @@
   <artifactId>realname-auth</artifactId>
   
   <dependencies>
-	<!-- @EnableConfigServer -->
+	<!-- 配置中心客户端 -->
 	<dependency>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-starter-config</artifactId>
@@ -17,11 +17,17 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
+	<!-- 监控 -->
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
 	<!-- 注册中心 -->
 	<dependency>
 	    <groupId>org.springframework.cloud</groupId>
 	    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 	</dependency>
+	<!-- 集成了ribbon和hystrix -->
 	<dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -31,12 +37,21 @@
 	    <groupId>org.springframework.cloud</groupId>
 	    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
 	</dependency>
-	<!-- 负载均衡 -->
+	<!-- 断路器监控端点数据可视化，@EnableHystrixDashboard -->
+	<dependency>
+	  <groupId>org.springframework.cloud</groupId>
+	  <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+	</dependency>
+	<!-- 客户端负载均衡 -->
 	<dependency>
 	    <groupId>org.springframework.cloud</groupId>
 	    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 	</dependency>
-	
+	<!-- 链路追踪，客户端只引包即可 -->
+	<dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-zipkin</artifactId>
+	</dependency>
 	<!-- redis依赖 -->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>

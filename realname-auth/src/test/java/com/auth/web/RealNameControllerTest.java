@@ -27,7 +27,7 @@ public class RealNameControllerTest {
 	public void postRealnameAuthTest() {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 		headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-		headers.add("userId", "1");
+		headers.add("userId", "2");
 		headers.add("token", "x1");
 		
 		//application/x-www-form-urlencoded post传参需要MultiValueMap或者实体对象，不能写Map<>

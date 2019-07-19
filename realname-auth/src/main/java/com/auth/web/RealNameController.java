@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.auth.feign.RealNameFeignClient;
 import com.auth.visitlimit.DayVisitLimit;
 
@@ -19,8 +20,8 @@ public class RealNameController {
 
 	@DayVisitLimit(value = "realname", express = "#userId", limit = 3)
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String postRealnameAuth(@RequestHeader("userId") Integer userId, @RequestHeader String token,
+	public Object postRealnameAuth(@RequestHeader("userId") Integer userId, @RequestHeader String token,
 			@RequestParam String idcard, @RequestParam String name) {
-		return realNameFeignClient.checkIDcardAndName(idcard, name);
+		return JSON.parse(realNameFeignClient.checkIDcardAndName(idcard, name));
 	}
 }

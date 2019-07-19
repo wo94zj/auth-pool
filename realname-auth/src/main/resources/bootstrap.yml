@@ -17,3 +17,88 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:1110/eureka/
     register-with-eureka: false #属性表示是否将自己注册到Eureka Server， 默认为true
+
+# feign配置
+feign:
+  client:
+    config:
+      default: #不指定feignName，默认所有feign
+        connectTimeout: 5000 #连接到服务端的超时时间
+        readTimeout: 5000 #连接到服务端后，多长时间没有获取到响应的超时时间
+        loggerLevel: basic #none（没有记录，默认）、basic（仅记录请求方法和URL以及响应状态代码和执行时间）、headers（记录基本信息以及请求和响应标头）、full（记录请求和响应的标题，正文和元数据）
+        #error-decoder: #自定义ErrorDecoder错误解码器
+        #retryer: #重试接口实现类，默认实现 feign.Retryer.Defaul
+        #requestInterceptors: #RequestInterceptor
+  hystrix:
+    # 在feign中开启hystrix功能，默认情况下feign不开启hystrix功能
+    enabled: true
+
+hystrix: 
+  command: 
+    default: 
+      circuitBreaker: 
+        enabled: true #是否启用熔断器，默认是TURE
+        sleepWindowInMilliseconds: 5000 #触发短路的时间值，当该值设为5000时，则当触发circuit break后的5000毫秒内都会拒绝request，也就是5000毫秒后才会关闭circuit。默认5000
+        requestVolumeThreshold: 20 #一个rolling window内最小的请求数。如果设为20，那么当一个rolling window的时间内（比如说1个rolling window是10秒）收到19个请求，即使19个请求都失败，也不会触发circuit break。默认20
+        errorThresholdPercentage: 50 #错误比率阀值，如果错误率>=该值，circuit会被打开，并短路所有请求触发fallback。默认50
+        forceOpen: false #强制打开熔断器，如果打开这个开关，那么拒绝所有request，默认false
+        forceClosed: false #强制关闭熔断器 如果这个开关打开，circuit将一直关闭且忽略circuitBreaker.errorThresholdPercentage
+      execution:
+        timeout: 
+          enabled: true #执行是否启用超时，默认启用true
+        isolation:
+          strategy: SEMAPHORE #SEMAPHORE:通过semaphore count来限制并发请求数，适用于无网络的高并发请求；默认是THREAD：通过线程数量来限制并发请求数，可以提供额外的保护，但有一定的延迟。一般用于网络调用
+          #thread:
+          #  timeoutInMilliseconds: 5000 #命令执行超时时间，默认1000ms
+          #  interruptOnTimeout: true #发生超时是是否中断，默认true
+          #  interruptOnFutureCancel: false
+          semaphore: 
+            maxConcurrentRequests: 10 #最大并发请求数，默认10（ 如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用）
+      fallback:
+        enabled: true #当执行失败或者请求被拒绝，是否会尝试调用hystrixCommand.getFallback() 。默认true
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 10 #如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用。默认10
+      metrics:
+        rollingStats:
+          timeInMilliseconds: 10000 #设置统计的时间窗口值的，毫秒值，circuit break 的打开会根据1个rolling window的统计来计算。若rolling window被设为10000毫秒，则rolling window会被分成n个buckets，每个bucket包含success，failure，timeout，rejection的次数的统计信息。默认10000
+          numBuckets: 10 #设置一个rolling window被划分的数量，若numBuckets＝10，rolling window＝10000，那么一个bucket的时间即1秒。必须符合rolling window % numberBuckets == 0。默认10
+        rollingPercentile:
+          enabled: true #执行时是否enable指标的计算和跟踪，默认true
+          timeInMilliseconds: 60000 #设置rolling percentile window的时间，默认60000
+          numBuckets: 6 #设置rolling percentile window的numberBuckets。逻辑同上。默认6
+          bucketSize: 100 #如果bucket size＝100，window＝10s，若这10s里有500次执行，只有最后100次执行会被统计到bucket里去。增加该值会增加内存开销以及排序的开销。默认100
+        healthSnapshot:
+          intervalInMilliseconds: 500 #记录health 快照（用来统计成功和错误绿）的间隔，默认500ms
+      #requestCache:
+      #  enabled: true #默认true，需要重载getCacheKey()，返回null时不缓存
+      #requestLog:
+      #  enabled: true #记录日志到HystrixRequestLog，默认true
+  #collapser:
+  #  default:
+  #    maxRequestsInBatch: #单次批处理的最大请求数，达到该数量触发批处理，默认Integer.MAX_VALUE
+  #    timerDelayInMilliseconds: 10 #触发批处理的延迟，也可以为创建批处理的时间＋该值，默认10
+  #    requestCache:
+  #      enabled: true #是否对HystrixCollapser.execute() and HystrixCollapser.queue()的cache，默认true
+  #threadpool:
+  #  default:
+  #    coreSize: 10 #并发执行的最大线程数，默认10
+  #    maximumSize: 10 #1.5.9新增属性，设置线程池最大值。这个是在不开始拒绝HystrixCommand的情况下支持的最大并发数。这个属性起作用的前提是设置了allowMaximumSizeToDrivergeFromCoreSize。1.5.9之前，核心线程池大小和最大线程池大小总是相同的。
+  #    maxQueueSize: -1 #BlockingQueue的最大队列数，当设为－1，会使用SynchronousQueue，值为正时使用LinkedBlcokingQueue。该设置只会在初始化时有效，之后不能修改threadpool的queue size，除非reinitialising thread executor。默认－1。
+  #    queueSizeRejectionThreshold: 5 #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝。因为maxQueueSize不能被动态修改，这个参数将允许我们动态设置该值。if maxQueueSize == -1，该字段将不起作用
+  #    keepAliveTimeMinutes: 1 #如果corePoolSize和maxPoolSize设成一样（默认实现）该设置无效。如果通过plugin（https://github.com/Netflix/Hystrix/wiki/Plugins）使用自定义实现，该设置才有用，默认1.
+  #    allowMaximumSizeToDivergeFromCoreSize: false #在1.5.9中新增的属性。该属性允许maximumSize起作用。属性值可以等于或者大于coreSize值，设置coreSize小于maximumSize的线程池能够支持maximumSize的并发数，但是会将不活跃的线程返回到系统中去。
+  #    metrics:
+  #      rollingStats:
+  #        timeInMilliseconds: 10000 #线程池统计指标的时间，默认10000
+  #        numBuckets: 10 #将rolling window划分为n个buckets，默认10
+
+spring:
+  zipkin:
+    #base-url: http://127.0.0.1:9411 #指定了Zipkin服务器的地址，若在同一个注册中心的话可以启用自动发现，省略base-url
+    locator:
+      discovery:
+        enabled: true #自动发现
+  sleuth:
+    sampler:
+      percentage: 1.0 #Spring Cloud Sleuth有一个Sampler策略，可以通过这个实现类来控制采样算法。采样器不会阻碍span相关id的产生，但是会对导出以及附加事件标签的相关操作造成影响。 Sleuth默认采样算法的实现是Reservoir sampling，具体的实现类是PercentageBasedSampler，默认的采样比例为: 0.1(即10%)。不过我们可以通过spring.sleuth.sampler.percentage来设置，所设置的值介于0.0到1.0之间，1.0则表示全部采集。
